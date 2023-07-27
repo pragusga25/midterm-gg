@@ -9,10 +9,9 @@ const envVarsSchema = joi
     NODE_ENV: joi
       .string()
       .valid('production', 'development', 'test')
-      .required(),
-    PORT: joi.number().positive().required(),
-    JWT_ACCESS_SECRET: joi.string().required(),
-    JWT_REFRESH_SECRET: joi.string().required(),
+      .default('development'),
+    PORT: joi.number().positive().default(3000),
+    MONGO_URI: joi.string().uri().required(),
   })
   .unknown();
 
@@ -28,6 +27,5 @@ export const config = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   isProduction: envVars.NODE_ENV === 'production',
-  jwtAccessSecret: envVars.JWT_ACCESS_SECRET,
-  jwtRefreshSecret: envVars.JWT_REFRESH_SECRET,
+  mongoUri: envVars.MONGO_URI,
 };

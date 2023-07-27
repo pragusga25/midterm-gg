@@ -3,11 +3,10 @@ import 'express-async-errors';
 import cors from 'cors';
 import helmet from 'helmet';
 import { errorMiddleware } from './shared/middlewares';
-import { authRouters } from './auth';
 import { API_PREFIX } from './shared/constants';
+import { routers } from './routers';
 
 const app = express();
-const routers = [...authRouters];
 
 app.set('trust proxy', true);
 
@@ -19,7 +18,7 @@ app.use(
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-routers.forEach((router) => app.use(API_PREFIX, router));
+app.use(API_PREFIX, ...routers);
 
 app.use(errorMiddleware);
 export { app };
