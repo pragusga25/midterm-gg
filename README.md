@@ -149,6 +149,10 @@ const productSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
+    link: {
+      type: String,
+      required: true,
+    },
     video: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Video',
@@ -170,6 +174,7 @@ const productSchema = new mongoose.Schema(
 
 - `title` (String, required): The title or name of the product.
 - `price` (Number, required, min: 0): The price of the product (non-negative).
+- `link` (String, required): The link of the product.
 - `video` (ObjectId, ref: 'Video', required): A reference to the `Video` document to which the product belongs.
 
 ### 3. Comment Collection Schema
