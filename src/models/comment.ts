@@ -51,6 +51,7 @@ const commentSchema = new mongoose.Schema(
 
 commentSchema.set('versionKey', 'version');
 commentSchema.statics.build = (attrs: CommentAttrs) => new Comment(attrs);
+// Remove the version and video fields from the response
 commentSchema.statics.findByVideoId = (videoId: string) =>
   Comment.find({ video: videoId }).select('-video -version');
 

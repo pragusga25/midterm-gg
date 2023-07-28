@@ -1,6 +1,5 @@
 import express from 'express';
 import 'express-async-errors';
-import cors from 'cors';
 import helmet from 'helmet';
 import { errorMiddleware } from './shared/middlewares';
 import { API_PREFIX } from './shared/constants';
@@ -10,11 +9,6 @@ const app = express();
 
 app.set('trust proxy', true);
 
-app.use(
-  cors({
-    origin: ['localhost'],
-  })
-);
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

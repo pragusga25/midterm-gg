@@ -48,6 +48,7 @@ const productSchema = new mongoose.Schema(
 
 productSchema.set('versionKey', 'version');
 productSchema.statics.build = (attrs: ProductAttrs) => new Product(attrs);
+// Remove the version and video fields from the response
 productSchema.statics.findByVideoId = (videoId: string) =>
   Product.find({ video: videoId }).select('-video -version');
 
