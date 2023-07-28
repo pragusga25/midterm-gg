@@ -3,12 +3,14 @@ import { VideoDoc } from './video';
 
 interface ProductAttrs {
   title: string;
+  link: string;
   price: number;
   video: VideoDoc;
 }
 
 export interface ProductDoc extends mongoose.Document<string> {
   title: string;
+  link: string;
   price: number;
   video: VideoDoc;
   version: number;
@@ -29,6 +31,10 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
+    },
+    link: {
+      type: String,
+      required: true,
     },
     video: {
       type: mongoose.Schema.Types.ObjectId,
