@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { HttpError } from '../errors';
+import { logger } from '../libs';
 
 export const errorMiddleware = (
   err: HttpError,
@@ -14,6 +15,8 @@ export const errorMiddleware = (
       code: 'internal-server-error',
     },
   };
+
+  logger.error(err);
 
   res.status(status).send(response);
 };

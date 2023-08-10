@@ -1,2 +1,2 @@
-export * from './logger';
-export * from './joi';
+export * from './logger.lib';
+export * from './joi.lib';

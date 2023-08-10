@@ -3,6 +3,8 @@ import joi from 'joi';
 
 dotenv.config();
 
+const FE_LOCAL = 'http://localhost:5173';
+
 const envVarsSchema = joi
   .object()
   .keys({
@@ -12,6 +14,9 @@ const envVarsSchema = joi
       .default('development'),
     PORT: joi.number().positive().default(3000),
     MONGO_URI: joi.string().uri().required(),
+    JWT_ACCESS_SECRET: joi.string().required(),
+    JWT_REFRESH_SECRET: joi.string().required(),
+    ALLOWED_ORIGIN: joi.string().optional().default(FE_LOCAL).not('*'),
   })
   .unknown();
 
@@ -28,4 +33,7 @@ export const config = {
   port: envVars.PORT,
   isProduction: envVars.NODE_ENV === 'production',
   mongoUri: envVars.MONGO_URI,
+  jwtAccessSecret: envVars.JWT_ACCESS_SECRET,
+  jwtRefreshSecret: envVars.JWT_REFRESH_SECRET,
+  allowedOrigin: envVars.ALLOWED_ORIGIN,
 };

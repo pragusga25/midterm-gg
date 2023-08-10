@@ -5,6 +5,7 @@ interface VideoAttrs {
   description: string;
   thumbnailUrl: string;
   embededYoutubeUrl: string;
+  thumbnailColor: string;
 }
 
 export interface VideoDoc extends mongoose.Document<string> {
@@ -13,6 +14,7 @@ export interface VideoDoc extends mongoose.Document<string> {
   thumbnailUrl: string;
   embededYoutubeUrl: string;
   version: number;
+  thumbnailColor: string;
 }
 
 interface VideoModel extends mongoose.Model<VideoDoc> {
@@ -30,6 +32,10 @@ const videoSchema = new mongoose.Schema(
       required: true,
     },
     thumbnailUrl: {
+      type: String,
+      required: true,
+    },
+    thumbnailColor: {
       type: String,
       required: true,
     },
@@ -61,6 +67,7 @@ const videoSchema = new mongoose.Schema(
 );
 
 videoSchema.set('versionKey', 'version');
+videoSchema.index({ title: 'text', description: 'text' });
 videoSchema.statics.build = (attrs: VideoAttrs) => new Video(attrs);
 
 const Video = mongoose.model<VideoDoc, VideoModel>('Video', videoSchema);

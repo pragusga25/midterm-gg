@@ -6,6 +6,7 @@ interface ProductAttrs {
   link: string;
   price: number;
   video: VideoDoc;
+  img: string;
 }
 
 export interface ProductDoc extends mongoose.Document<string> {
@@ -13,6 +14,7 @@ export interface ProductDoc extends mongoose.Document<string> {
   link: string;
   price: number;
   video: VideoDoc;
+  img: string;
   version: number;
 }
 
@@ -33,6 +35,10 @@ const productSchema = new mongoose.Schema(
       min: 0,
     },
     link: {
+      type: String,
+      required: true,
+    },
+    img: {
       type: String,
       required: true,
     },

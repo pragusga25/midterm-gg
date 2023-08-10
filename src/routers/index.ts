@@ -3,11 +3,21 @@ import { detailVideoRouter } from './detail-video.router';
 import { listCommentsRouter } from './list-comments.router';
 import { listProductsRouter } from './list-products.router';
 import { listVideosRouter } from './list-videos.router';
+import { loginRouter } from './login.router';
+import { logoutRouter } from './logout.router';
+import { meRouter } from './me.router';
+import { refreshTokenRouter } from './refresh-token.router';
+import { registerRouter } from './register.router';
 
 export const routers = [
-  createCommentRouter,
-  listCommentsRouter,
-  listProductsRouter,
+  meRouter,
+  loginRouter,
+  logoutRouter,
+  registerRouter,
   listVideosRouter,
   detailVideoRouter,
+  listCommentsRouter,
+  listProductsRouter,
+  refreshTokenRouter,
+  createCommentRouter,
 ];
