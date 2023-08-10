@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema(
 userSchema.set('versionKey', 'version');
 userSchema.statics.build = (attrs: UserAttrs) => new User(attrs);
 userSchema.statics.findByUsername = (username: string) =>
-  User.find({ username });
+  User.findOne({ username });
 
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 

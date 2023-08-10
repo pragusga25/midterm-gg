@@ -17,7 +17,7 @@ registerRouter.post(
 
     res.status(201).send({
       ok: true,
-      ...rest,
+      data: rest,
     });
   }
 );

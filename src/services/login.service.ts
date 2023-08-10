@@ -18,16 +18,16 @@ export const loginService = async (data: Data) => {
 
   if (!isMatch) throw new IncorrectCredentialError();
 
-  const tokens = JwtUtil.generateTokens({
+  const payload = {
     id: user.id,
     username: user.username,
-  });
+    image: user.image,
+  };
+
+  const tokens = JwtUtil.generateTokens(payload);
 
   return {
     ...tokens,
-    user: {
-      id: user.id,
-      username: user.username,
-    },
+    user: payload,
   };
 };
