@@ -12,7 +12,7 @@ const envVarsSchema = joi
       .string()
       .valid('production', 'development', 'test')
       .default('development'),
-    PORT: joi.number().positive().default(3000),
+    PORT: joi.number().positive().required(),
     MONGO_URI: joi.string().uri().required(),
     JWT_ACCESS_SECRET: joi.string().required(),
     JWT_REFRESH_SECRET: joi.string().required(),
