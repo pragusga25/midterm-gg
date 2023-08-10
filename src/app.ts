@@ -10,8 +10,6 @@ import { config } from './shared/config';
 
 const app = express();
 
-app.set('trust proxy', true);
-
 app.use(
   cors({
     origin: config.allowedOrigin,
