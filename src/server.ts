@@ -48,6 +48,7 @@ io.on('connection', (socket) => {
         id: comment.id,
         ...rest,
         username,
+        timestamp: comment.timestamp,
       });
     } catch (err) {
       logger.error(err);

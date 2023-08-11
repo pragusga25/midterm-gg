@@ -11,6 +11,7 @@ export interface CommentDoc extends mongoose.Document<string> {
   username: string;
   comment: string;
   video: VideoDoc;
+  timestamp: Date;
 }
 
 interface CommentModel extends mongoose.Model<CommentDoc> {
