@@ -1,7 +1,13 @@
 import { JwtUtil } from '../shared/utils';
 
 export const refreshTokenService = async (refreshToken: string) => {
-  const user = JwtUtil.verifyRefreshToken(refreshToken);
+  const { id, username, image } = JwtUtil.verifyRefreshToken(refreshToken);
+
+  const user = {
+    id,
+    username,
+    image,
+  };
 
   const accessToken = JwtUtil.generateAccessToken(user);
 
