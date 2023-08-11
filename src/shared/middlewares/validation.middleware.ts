@@ -1,7 +1,6 @@
-import { ClassConstructor, plainToInstance } from 'class-transformer';
+import { ClassConstructor } from 'class-transformer';
 import { RequestHandler } from 'express';
-import { getClassSchema } from 'joi-class-decorators';
-import { StringUtil } from '../utils';
+import { Validator } from '../utils';
 import { HttpError } from '../errors';
 
 type Args = 'body' | 'params' | 'query';
@@ -10,32 +9,12 @@ const validationMiddleware =
   (arg: Args) =>
   <T extends ClassConstructor<any>>(type: T): RequestHandler => {
     return (req, _res, next) => {
-      const schema = getClassSchema(type);
+      const { error, value, details } = Validator.validateClassSchema(
+        type,
+        req[arg]
+      );
 
-      const object = plainToInstance(type, req[arg]);
-
-      const { error, value } = schema.validate(object, {
-        abortEarly: false,
-        allowUnknown: false,
-      });
-
-      if (error) {
-        const details: string[] = [];
-        error.details.forEach((err) => {
-          const key = err.context?.key;
-
-          if (key) {
-            const newKey = StringUtil.isString(key)
-              ? StringUtil.snakeCase(key)
-              : key;
-
-            details.push(err.message.replace(key, newKey));
-          }
-        });
-
-        next(new HttpError(400, `request/invalid-${arg}`, details));
-        return;
-      }
+      if (error) throw new HttpError(400, `request/invalid-${arg}`, details);
 
       req[arg] = value;
       next();

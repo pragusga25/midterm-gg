@@ -1,11 +1,7 @@
 import { NextFunction, Response } from 'express';
 import { IAuthRequest } from '../interfaces';
 import { JwtUtil } from '../utils';
-import {
-  HttpError,
-  MissingAccessTokenError,
-  MissingRefreshTokenError,
-} from '../errors';
+import { MissingAccessTokenError, MissingRefreshTokenError } from '../errors';
 
 const auth =
   (useRefreshToken = false) =>
@@ -29,13 +25,9 @@ const auth =
       throw new MissingAccessTokenError();
     }
 
-    try {
-      const result = JwtUtil.verifyAccessToken(token);
-      req.user = result;
-      next();
-    } catch {
-      next(new HttpError(403, 'auth/invalid-token'));
-    }
+    const result = JwtUtil.verifyAccessToken(token);
+    req.user = result;
+    next();
   };
 
 const authMiddleware = auth();
