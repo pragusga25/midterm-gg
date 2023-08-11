@@ -1,4 +1,4 @@
-import { app } from './app';
+import { server } from './server';
 import { config } from './shared/config';
 import { logger } from './shared/libs';
 import mongoose from 'mongoose';
@@ -8,7 +8,7 @@ const start = async () => {
 
   await mongoose.connect(config.mongoUri);
 
-  app.listen(config.port, () => {
+  server.listen(config.port, () => {
     logger.info(`Server is running on port ${port}`);
   });
 };
