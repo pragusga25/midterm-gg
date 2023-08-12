@@ -7,7 +7,11 @@ export const findUserByUsernameService = async (username: string) => {
 
   if (!user) throw new UserNotFoundError();
 
-  const { password, ...rest } = user;
-
-  return { data: rest };
+  return {
+    data: {
+      id: user.id,
+      username: user.username,
+      image: user.image,
+    },
+  };
 };
