@@ -15,6 +15,7 @@ loginRouter.post(
       message: 'Login request received',
       username: req.body.username,
     });
+
     const { accessToken, refreshToken, user } = await loginService(req.body);
 
     HttpUtil.attachRefreshToken(res, refreshToken);

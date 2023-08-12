@@ -7,5 +7,7 @@ export const findUserByUsernameService = async (username: string) => {
 
   if (!user) throw new UserNotFoundError();
 
-  return { data: user };
+  const { password, ...rest } = user;
+
+  return { data: rest };
 };
