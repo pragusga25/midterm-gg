@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema(
 userSchema.set('versionKey', 'version');
 userSchema.statics.build = (attrs: UserAttrs) => new User(attrs);
 userSchema.statics.findByUsername = (username: string) =>
-  User.findOne({ username });
+  User.findOne({ username }).select('-version -comments -products -password');
 
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 

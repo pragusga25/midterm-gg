@@ -6,3 +6,4 @@ export * from './detail-video.service';
 export * from './register.service';
 export * from './login.service';
 export * from './refresh-token.service';
+export * from './find-user-by-username.service';
