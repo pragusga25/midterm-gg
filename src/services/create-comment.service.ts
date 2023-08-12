@@ -25,6 +25,10 @@ export const createCommentService = async (data: Data) => {
     data: {
       timestamp: comment.timestamp,
       id: comment.id,
+      user: {
+        username: user.username,
+        image: user.image,
+      },
     },
   };
 };

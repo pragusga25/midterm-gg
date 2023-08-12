@@ -2,7 +2,7 @@ import { JoiSchema } from 'joi-class-decorators';
 import { Joi } from '../shared/libs';
 
 export class CreateCommentWsDto {
-  @JoiSchema(Joi.string().max(255).required())
+  @JoiSchema(Joi.string().max(100).required())
   readonly comment: string;
 
   @JoiSchema(Joi.string().required())

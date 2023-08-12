@@ -46,15 +46,15 @@ io.on('connection', (socket) => {
     const { accessToken, videoId, ...rest } = msg;
     try {
       const { username } = JwtUtil.verifyAccessToken(accessToken);
-      const {
-        data: { id, timestamp },
-      } = await createCommentService({ videoId, username, ...rest });
+      const { data } = await createCommentService({
+        videoId,
+        username,
+        ...rest,
+      });
 
       io.emit(`${videoId}:comment`, {
         ...rest,
-        id: id,
-        username,
-        timestamp: timestamp,
+        ...data,
       });
     } catch (err) {
       logger.error(err);
