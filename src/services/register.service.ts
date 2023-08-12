@@ -18,7 +18,6 @@ export const registerService = async (data: Data) => {
     const user = User.build({
       username,
       password: hashedPassword,
-      image: 'https://i.imgur.com/3Lm0z3o.png',
     });
     await user.save();
 

@@ -1,17 +1,18 @@
 import mongoose from 'mongoose';
 import { VideoDoc } from './video';
+import { UserDoc } from './user';
 
 interface CommentAttrs {
-  username: string;
   comment: string;
   video: VideoDoc;
+  user: UserDoc;
 }
 
 export interface CommentDoc extends mongoose.Document<string> {
-  username: string;
   comment: string;
   video: VideoDoc;
   timestamp: Date;
+  user: UserDoc;
 }
 
 interface CommentModel extends mongoose.Model<CommentDoc> {
@@ -21,10 +22,6 @@ interface CommentModel extends mongoose.Model<CommentDoc> {
 
 const commentSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      required: true,
-    },
     comment: {
       type: String,
       required: true,
@@ -57,9 +54,12 @@ const commentSchema = new mongoose.Schema(
 
 commentSchema.set('versionKey', 'version');
 commentSchema.statics.build = (attrs: CommentAttrs) => new Comment(attrs);
-// Remove the version and video fields from the response
+// Retrieve user's comments for a video
 commentSchema.statics.findByVideoId = (videoId: string) =>
-  Comment.find({ video: videoId }).select('-video -version').sort('timestamp');
+  Comment.find({ video: videoId })
+    .select('-video -version')
+    .populate('user', 'username image')
+    .sort('timestamp');
 
 const Comment = mongoose.model<CommentDoc, CommentModel>(
   'Comment',

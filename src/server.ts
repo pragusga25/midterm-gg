@@ -3,10 +3,9 @@ import { app } from './app';
 import { Server } from 'socket.io';
 import { JwtUtil, Validator } from './shared/utils';
 import { logger } from './shared/libs';
-import { Comment, Video } from './models';
-import { VideoNotFoundError } from './errors';
 import { config } from './shared/config';
 import { CreateCommentWsDto } from './dtos';
+import { createCommentService } from './services';
 
 const server = http.createServer(app);
 
@@ -47,22 +46,15 @@ io.on('connection', (socket) => {
     const { accessToken, videoId, ...rest } = msg;
     try {
       const { username } = JwtUtil.verifyAccessToken(accessToken);
-      const video = await Video.findById(videoId);
+      const {
+        data: { id, timestamp },
+      } = await createCommentService({ videoId, username, ...rest });
 
-      if (!video) throw new VideoNotFoundError();
-
-      const comment = Comment.build({
-        ...rest,
-        video,
-        username,
-      });
-
-      await comment.save();
       io.emit(`${videoId}:comment`, {
-        id: comment.id,
         ...rest,
+        id: id,
         username,
-        timestamp: comment.timestamp,
+        timestamp: timestamp,
       });
     } catch (err) {
       logger.error(err);

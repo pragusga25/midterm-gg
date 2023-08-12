@@ -1,5 +1,5 @@
-import { VideoNotFoundError } from '../errors';
-import { Comment, Video } from '../models';
+import { UserNotFoundError, VideoNotFoundError } from '../errors';
+import { Comment, User, Video } from '../models';
 
 type Data = {
   comment: string;
@@ -8,12 +8,23 @@ type Data = {
 };
 
 export const createCommentService = async (data: Data) => {
-  const { videoId, ...rest } = data;
+  const { videoId, username, ...rest } = data;
 
-  const video = await Video.findById(videoId);
+  const videoPromise = Video.findById(videoId);
+  const userPromise = User.findByUsername(username);
+
+  const [video, user] = await Promise.all([videoPromise, userPromise]);
 
   if (!video) throw new VideoNotFoundError();
+  if (!user) throw new UserNotFoundError();
 
-  const comment = Comment.build({ ...rest, video });
+  const comment = Comment.build({ ...rest, video, user });
   await comment.save();
+
+  return {
+    data: {
+      timestamp: comment.timestamp,
+      id: comment.id,
+    },
+  };
 };
