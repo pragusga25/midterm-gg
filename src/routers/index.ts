@@ -9,6 +9,7 @@ import { logoutRouter } from './logout.router';
 import { meRouter } from './me.router';
 import { refreshTokenRouter } from './refresh-token.router';
 import { registerRouter } from './register.router';
+import { updateUserRouter } from './update-user.router';
 
 export const routers = [
   meRouter,
@@ -22,4 +23,5 @@ export const routers = [
   refreshTokenRouter,
   createCommentRouter,
   findUserByUsernameRouter,
+  updateUserRouter,
 ];

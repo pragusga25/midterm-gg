@@ -1,8 +1,8 @@
 import { UserNotFoundError } from '../errors';
 import { User } from '../models';
 
-export const findUserByUsernameService = async (username: string) => {
-  const user = await User.findByUsername(username);
+export const getMyDataService = async (id: string) => {
+  const user = await User.findById(id);
 
   if (!user) throw new UserNotFoundError();
 

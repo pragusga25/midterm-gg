@@ -4,7 +4,7 @@ import { Joi } from '../shared/libs';
 export class RegisterBodyDto {
   @JoiSchema(
     Joi.string()
-      .max(32)
+      .max(12)
       .regex(/^[a-zA-Z0-9]+$/)
       .trim()
       .required()

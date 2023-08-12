@@ -3,13 +3,15 @@ import mongoose from 'mongoose';
 interface UserAttrs {
   username: string;
   password: string;
-  image: string;
+  image?: string;
+  bio?: string;
 }
 
 export interface UserDoc extends mongoose.Document<string> {
   username: string;
   password: string;
-  image: string;
+  image?: string;
+  bio?: string;
   version: number;
 }
 
@@ -31,9 +33,10 @@ const userSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: true,
     },
-
+    bio: {
+      type: String,
+    },
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,

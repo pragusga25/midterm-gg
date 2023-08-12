@@ -7,3 +7,5 @@ export * from './register.service';
 export * from './login.service';
 export * from './refresh-token.service';
 export * from './find-user-by-username.service';
+export * from './update-user.service';
+export * from './get-my-data.service';

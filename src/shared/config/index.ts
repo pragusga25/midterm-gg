@@ -17,6 +17,10 @@ const envVarsSchema = joi
     JWT_ACCESS_SECRET: joi.string().required(),
     JWT_REFRESH_SECRET: joi.string().required(),
     ALLOWED_ORIGIN: joi.string().optional().default(FE_LOCAL).not('*'),
+    GCP_PROJECT_ID: joi.string().optional(),
+    GCP_PRIVATE_KEY: joi.string().optional(),
+    GCP_CLIENT_EMAIL: joi.string().optional(),
+    GCP_BUCKET_NAME: joi.string().optional(),
   })
   .unknown();
 
@@ -36,4 +40,10 @@ export const config = {
   jwtAccessSecret: envVars.JWT_ACCESS_SECRET,
   jwtRefreshSecret: envVars.JWT_REFRESH_SECRET,
   allowedOrigin: envVars.ALLOWED_ORIGIN,
+  gcp: {
+    projectId: envVars.GCP_PROJECT_ID,
+    privateKey: envVars.GCP_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    clientEmail: envVars.GCP_CLIENT_EMAIL,
+    bucketName: envVars.GCP_BUCKET_NAME,
+  },
 };
