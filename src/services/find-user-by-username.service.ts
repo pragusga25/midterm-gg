@@ -12,6 +12,7 @@ export const findUserByUsernameService = async (username: string) => {
       username: user.username,
       image: user.image,
       bio: user.bio,
+      isOnline: user.isOnline,
     },
   };
 };

@@ -7,6 +7,7 @@ import {
 import { UpdateUserBodyDto } from '../dtos';
 import { IAuthRequest } from '../shared/interfaces';
 import { updateUserService } from '../services';
+import { logger } from '../shared/libs';
 
 const updateUserRouter = Router();
 
@@ -25,7 +26,11 @@ updateUserRouter.patch(
       id: userId,
     };
 
+    logger.info('Update user: ', data);
+
     await updateUserService(data);
+
+    logger.info('Update user successfully');
 
     res.status(201).send({
       ok: true,

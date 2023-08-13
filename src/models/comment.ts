@@ -58,7 +58,7 @@ commentSchema.statics.build = (attrs: CommentAttrs) => new Comment(attrs);
 commentSchema.statics.findByVideoId = (videoId: string) =>
   Comment.find({ video: videoId })
     .select('-video -version')
-    .populate('user', 'username image')
+    .populate('user', 'username image isOnline')
     .sort('timestamp');
 
 const Comment = mongoose.model<CommentDoc, CommentModel>(

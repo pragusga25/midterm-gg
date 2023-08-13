@@ -9,9 +9,10 @@ refreshTokenRouter.get(
   '/auth/refresh',
   authRefreshMiddlewre,
   async (req: Request, res: Response) => {
+    logger.info('Refresh token');
     const { refreshToken } = req.cookies;
-    logger.info({ refreshToken, path: req.path });
     const { accessToken, user } = await refreshTokenService(refreshToken);
+    logger.info('Refresh token successfully');
 
     res.status(200).json({
       ok: true,

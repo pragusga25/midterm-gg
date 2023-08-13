@@ -5,6 +5,7 @@ interface UserAttrs {
   password: string;
   image?: string;
   bio?: string;
+  isOnline?: boolean;
 }
 
 export interface UserDoc extends mongoose.Document<string> {
@@ -13,6 +14,7 @@ export interface UserDoc extends mongoose.Document<string> {
   image?: string;
   bio?: string;
   version: number;
+  isOnline: boolean;
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
@@ -36,6 +38,10 @@ const userSchema = new mongoose.Schema(
     },
     bio: {
       type: String,
+    },
+    isOnline: {
+      type: mongoose.Schema.Types.Boolean,
+      default: false,
     },
     comments: [
       {

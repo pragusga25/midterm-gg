@@ -7,4 +7,7 @@ export class UpdateUserBodyDto {
 
   @JoiSchema(Joi.boolean().optional().default(false))
   readonly removeImage: boolean;
+
+  @JoiSchema(Joi.boolean().optional())
+  readonly isOnline?: boolean;
 }

@@ -7,27 +7,34 @@ type Data = {
   image?: Express.Multer.File;
   id: string;
   removeImage: boolean;
+  isOnline?: boolean;
 };
 
 export const updateUserService = async (data: Data) => {
-  const { id, removeImage, image, bio } = data;
+  const { id, removeImage, image, bio, isOnline } = data;
   const user = await User.findById(id);
-
-  const prevBio = user?.bio;
-  const prevImage = user?.image;
+  let isModified = false;
 
   if (!user) throw new UserNotFoundError();
 
   if (removeImage) {
+    isModified = true;
     user.image = undefined;
   } else if (image) {
     const publicUrl = await uploadFile(image, id);
     user.image = publicUrl;
+    isModified = true;
   }
 
-  if (bio) user.bio = bio;
+  if (bio) {
+    isModified = true;
+    user.bio = bio;
+  }
 
-  const isChanged = prevBio !== bio || prevImage !== user.image;
+  if (isOnline !== undefined) {
+    isModified = true;
+    user.isOnline = isOnline;
+  }
 
-  if (isChanged) await user.save();
+  if (isModified) await user.save();
 };
