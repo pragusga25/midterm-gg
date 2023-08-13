@@ -4,8 +4,8 @@ import { Server } from 'socket.io';
 import { JwtUtil, Validator } from './shared/utils';
 import { logger } from './shared/libs';
 import { config } from './shared/config';
-import { CreateCommentWsDto } from './dtos';
-import { createCommentService } from './services';
+import { CreateCommentWsDto, DeleteCommentWsDto } from './dtos';
+import { createCommentService, deleteCommentService } from './services';
 
 const server = http.createServer(app);
 
@@ -19,6 +19,12 @@ type CommentData = {
   comment: string;
   videoId: string;
   accessToken: string;
+};
+
+type CommentDeletedData = {
+  id: string;
+  accessToken: string;
+  videoId: string;
 };
 
 io.on('connection', (socket) => {
@@ -60,6 +66,38 @@ io.on('connection', (socket) => {
       logger.error(err);
     } finally {
       logger.info('comment event handled');
+    }
+  });
+
+  socket.on('comment:deleted', async (msg: CommentDeletedData) => {
+    logger.info('comment:deleted event received');
+    logger.info(msg);
+
+    const { error, details } = Validator.validateClassSchema(
+      DeleteCommentWsDto,
+      msg
+    );
+
+    if (error) {
+      logger.error(details);
+      throw error;
+    }
+
+    const { accessToken, id, videoId } = msg;
+    try {
+      const { id: userId } = JwtUtil.verifyAccessToken(accessToken);
+      await deleteCommentService({
+        id,
+        userId,
+      });
+
+      io.emit(`${videoId}:comment:deleted`, {
+        id,
+      });
+    } catch (err) {
+      logger.error(err);
+    } finally {
+      logger.info('comment:deleted event handled');
     }
   });
 });

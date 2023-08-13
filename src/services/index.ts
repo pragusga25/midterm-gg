@@ -9,3 +9,4 @@ export * from './refresh-token.service';
 export * from './find-user-by-username.service';
 export * from './update-user.service';
 export * from './get-my-data.service';
+export * from './delete-comment.service';

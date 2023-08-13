@@ -7,3 +7,4 @@ export * from './login.body.dto';
 export * from './create-comment.ws.dto';
 export * from './find-user-by-username.params.dto';
 export * from './update-user.body.dto';
+export * from './delete-comment.ws.dto';
