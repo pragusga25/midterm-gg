@@ -5,12 +5,12 @@ export class RegisterBodyDto {
   @JoiSchema(
     Joi.string()
       .max(12)
-      .regex(/^[a-zA-Z0-9]+$/)
+      .regex(/^[a-zA-Z0-9_]+$/) // letters, numbers, underscores
       .trim()
       .required()
   )
   readonly username: string;
 
-  @JoiSchema(Joi.string().min(8).required())
+  @JoiSchema(Joi.string().min(8).max(50).required())
   readonly password: string;
 }
