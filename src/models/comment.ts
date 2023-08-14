@@ -5,14 +5,16 @@ import { UserDoc } from './user';
 interface CommentAttrs {
   comment: string;
   video: VideoDoc;
-  user: UserDoc;
+  user?: UserDoc;
+  guestUsername?: string;
 }
 
 export interface CommentDoc extends mongoose.Document<string> {
   comment: string;
   video: VideoDoc;
   timestamp: Date;
-  user: UserDoc;
+  user?: UserDoc;
+  guestUsername?: string;
 }
 
 interface CommentModel extends mongoose.Model<CommentDoc> {
@@ -25,6 +27,9 @@ const commentSchema = new mongoose.Schema(
     comment: {
       type: String,
       required: true,
+    },
+    guestUsername: {
+      type: String,
     },
     timestamp: {
       type: Date,
@@ -39,7 +44,7 @@ const commentSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: false,
     },
   },
   {

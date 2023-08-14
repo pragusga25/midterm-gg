@@ -18,7 +18,8 @@ const io = new Server(server, {
 type CommentData = {
   comment: string;
   videoId: string;
-  accessToken: string;
+  accessToken?: string;
+  guestUsername?: string;
 };
 
 type CommentDeletedData = {
@@ -44,14 +45,18 @@ io.on('connection', (socket) => {
       msg
     );
 
-    if (error) {
-      logger.error(details);
-      throw error;
-    }
-
     const { accessToken, videoId, ...rest } = msg;
     try {
-      const { username } = JwtUtil.verifyAccessToken(accessToken);
+      if (error) {
+        logger.error(details);
+        return;
+      }
+
+      let username: string | undefined = undefined;
+      if (accessToken) {
+        username = JwtUtil.verifyAccessToken(accessToken).username;
+      }
+
       const { data } = await createCommentService({
         videoId,
         username,
