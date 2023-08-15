@@ -32,6 +32,7 @@ Welcome to the Tokopedia Play Clone API documentation. This API provides functio
   - [API Endpoints](#api-endpoints)
   - [Usage](#usage)
   - [Deployment](#deployment)
+  - [Bonus Features](#bonus-features)
 
 ## Prerequisites
 
@@ -189,3 +190,24 @@ The API server will start, and you can access the endpoints at `http://localhost
 ## Deployment
 
 The project has been deployed and can be accessed at [https://api.tkp3.tech](https://api.tkp3.tech).
+
+## Bonus Features
+
+- **Live Commenting with WebSocket**:
+
+  - Users can create comments in two modes: guest and logged-in.
+  - Logged-in users can delete their comments.
+
+- **Authentication and Profile**:
+
+  - Users can register, log in, and log out.
+  - User profiles include profile images, bio, and username.
+  - Users can edit their profiles and view profiles of other users.
+  - Users can edit their profile picture by uploading the image.
+
+- **Live Tracking Online Status**:
+
+  - Users can see if other users are online or offline.
+
+- **Fuzzy Search for Videos**:
+  - Users can search for videos with typo tolerance.
