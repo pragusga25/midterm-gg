@@ -31,6 +31,7 @@ Welcome to the Tokopedia Play Clone API documentation. This API provides functio
       - [g. interfaces](#g-interfaces)
   - [API Endpoints](#api-endpoints)
   - [Usage](#usage)
+  - [Deployment](#deployment)
 
 ## Prerequisites
 
@@ -184,3 +185,7 @@ npm run dev
 ```
 
 The API server will start, and you can access the endpoints at `http://localhost:3000` (assuming the default port is used).
+
+## Deployment
+
+The project has been deployed and can be accessed at [https://api.tkp3.tech](https://api.tkp3.tech).
