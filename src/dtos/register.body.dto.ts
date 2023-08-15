@@ -4,6 +4,7 @@ import { Joi } from '../shared/libs';
 export class RegisterBodyDto {
   @JoiSchema(
     Joi.string()
+      .min(3)
       .max(12)
       .regex(/^[a-zA-Z0-9_]+$/) // letters, numbers, underscores
       .trim()
