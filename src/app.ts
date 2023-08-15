@@ -22,7 +22,13 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(API_PREFIX, ...routers);
-app.get('/', (_req, res) => res.send({ ok: true }));
+app.get('/', (_req, res) =>
+  res.send({
+    id: 'GG3FSGP0504',
+    name: 'Taufik Pragusga',
+    path: 'Full Stack Engineer',
+  })
+);
 
 app.use(errorMiddleware);
 export { app };

@@ -10,3 +10,5 @@ export * from './find-user-by-username.service';
 export * from './update-user.service';
 export * from './get-my-data.service';
 export * from './delete-comment.service';
+export * from './create-ws-comment.service';
+export * from './delete-ws-comment.service';

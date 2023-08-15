@@ -8,3 +8,4 @@ export * from './create-comment.ws.dto';
 export * from './find-user-by-username.params.dto';
 export * from './update-user.body.dto';
 export * from './delete-comment.ws.dto';
+export * from './create-comment-guest.body.dto';

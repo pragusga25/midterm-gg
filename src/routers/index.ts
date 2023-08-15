@@ -1,3 +1,4 @@
+import { createCommentGuestRouter } from './create-comment-guest.router';
 import { createCommentRouter } from './create-comment.router';
 import { detailVideoRouter } from './detail-video.router';
 import { findUserByUsernameRouter } from './find-user-by-username.router';
@@ -16,12 +17,13 @@ export const routers = [
   loginRouter,
   logoutRouter,
   registerRouter,
+  updateUserRouter,
   listVideosRouter,
   detailVideoRouter,
   listCommentsRouter,
   listProductsRouter,
   refreshTokenRouter,
   createCommentRouter,
+  createCommentGuestRouter,
   findUserByUsernameRouter,
-  updateUserRouter,
 ];
