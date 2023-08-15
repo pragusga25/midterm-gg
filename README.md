@@ -1,18 +1,20 @@
-# Video Management RESTful API (Express.js + TypeScript + MongoDB)
+# Tokopedia Play Clone API
 
-This repository contains a Video Management RESTful API built using Express.js, TypeScript, and MongoDB (with Mongoose). The API allows clients to manage video data, including retrieving videos, fetching associated products and comments, and creating new comments for specific videos. Below, you will find detailed instructions on how to set up and run the API, along with an explanation of the database schema used for video storage.
+Welcome to the Tokopedia Play Clone API documentation. This API provides functionalities similar to Tokopedia, allowing users to interact with videos, products, and comments. Users can also register, log in, and create comments in both guest and authenticated modes.
 
 ## Table of Contents
 
-- [Video Management RESTful API (Express.js + TypeScript + MongoDB)](#video-management-restful-api-expressjs--typescript--mongodb)
+- [Tokopedia Play Clone API](#tokopedia-play-clone-api)
   - [Table of Contents](#table-of-contents)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Configuration](#configuration)
   - [Database Schema](#database-schema)
-    - [1. Video Collection Schema](#1-video-collection-schema)
-    - [2. Product Collection Schema](#2-product-collection-schema)
-    - [3. Comment Collection Schema](#3-comment-collection-schema)
+    - [Comment Schema](#comment-schema)
+    - [Product Schema](#product-schema)
+    - [User Schema](#user-schema)
+    - [Video Schema](#video-schema)
+    - [Transformations](#transformations)
   - [API Structure](#api-structure)
     - [1. dtos](#1-dtos)
     - [2. errors](#2-errors)
@@ -58,170 +60,58 @@ Before running the API, you need to set up the environment variables. Create a `
 cp .env.example .env
 ```
 
-Then, open the `.env` file and fill in the values for the environment variables according to your MongoDB setup.
-
-Example `.env` file:
-
-```plaintext
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/video_management_db
-```
-
-Make sure to replace `MONGO_URI` with the connection string for your MongoDB database.
+Then, open the `.env` file and fill in the values for the environment variables according to your setup.
 
 ## Database Schema
 
-The MongoDB database schema used for storing video-related data is defined using Mongoose. The schema includes three main collections: `Video`, `Product`, and `Comment`.
+This section provides an in-depth description of the model schemas used within the Tokopedia Clone application. These schemas outline the structure of key data entities, including comments, products, users, and videos.
 
-### 1. Video Collection Schema
+### Comment Schema
 
-The Video collection stores information about videos and their associated data.
+The `commentSchema` defines the structure of comments associated with videos. Comments capture user interactions and discussions related to video content. Each comment includes:
 
-**Schema Definition:**
+- **Comment Content**: The textual content of the comment.
+- **Guest Username**: If the comment is made by a guest user, this field records the guest's username.
+- **Timestamp**: The date and time when the comment was posted.
+- **Video Reference**: A reference to the video that the comment is associated with.
+- **User Reference**: An optional reference to the authenticated user who posted the comment.
 
-```typescript
-const videoSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    thumbnailUrl: {
-      type: String,
-      required: true,
-    },
-    embededYoutubeUrl: {
-      type: String,
-      required: true,
-    },
-    products: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-      },
-    ],
-    comments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comment',
-      },
-    ],
-  },
-  {
-    toJSON: {
-      transform(_doc, ret) {
-        ret.id = ret._id;
-        delete ret._id;
-      },
-    },
-  }
-);
-```
+### Product Schema
 
-**Fields:**
+The `productSchema` outlines the structure of products featured within the application. Products are items that users can interact with, potentially making purchases or accessing related content. Each product includes:
 
-- `title` (String, required): The title of the video.
-- `description` (String, required): A description or summary of the video's content.
-- `thumbnailUrl` (String, required): The URL of the video's thumbnail image.
-- `embededYoutubeUrl` (String, required): The embedded YouTube URL of the video.
-- `products` (Array of ObjectIds, ref: 'Product'): An array of references to `Product` documents associated with the video.
-- `comments` (Array of ObjectIds, ref: 'Comment'): An array of references to `Comment` documents representing comments on the video.
+- **Title**: The name or title of the product.
+- **Price**: The cost associated with the product.
+- **Link**: A URL pointing to the product's external page.
+- **Image URL**: The URL of an image representing the product.
+- **Video Reference**: A reference to the video that the product is associated with.
 
-### 2. Product Collection Schema
+### User Schema
 
-The Product collection stores information about products associated with videos.
+The `userSchema` details the structure of user profiles in the Tokopedia Clone application. Each user profile encompasses various information and attributes, including:
 
-**Schema Definition:**
+- **Username**: A unique identifier for the user.
+- **Password**: The user's password, securely stored.
+- **Profile Image**: An image representing the user's profile.
+- **Bio**: A short biography or description provided by the user.
+- **Online Status**: Indicates whether the user is currently online.
+- **Comments**: An array of references to comments made by the user.
 
-```typescript
-const productSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-    link: {
-      type: String,
-      required: true,
-    },
-    video: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Video',
-      required: true,
-    },
-  },
-  {
-    toJSON: {
-      transform(_doc, ret) {
-        ret.id = ret._id;
-        delete ret._id;
-      },
-    },
-  }
-);
-```
+### Video Schema
 
-**Fields:**
+The `videoSchema` describes the structure of videos available within the application. Videos are a central part of the user experience, and each video schema includes:
 
-- `title` (String, required): The title or name of the product.
-- `price` (Number, required, min: 0): The price of the product (non-negative).
-- `link` (String, required): The link of the product.
-- `video` (ObjectId, ref: 'Video', required): A reference to the `Video` document to which the product belongs.
+- **Title**: The title or name of the video.
+- **Description**: A textual description or summary of the video's content.
+- **Thumbnail URL**: The URL of an image representing the video.
+- **Thumbnail Color**: A color associated with the video's thumbnail.
+- **Embedded YouTube URL**: The embedded URL of the video from YouTube.
+- **Products**: An array of references to products associated with the video.
+- **Comments**: An array of references to comments made on the video.
 
-### 3. Comment Collection Schema
+### Transformations
 
-The Comment collection stores information about comments made on videos.
-
-**Schema Definition:**
-
-```typescript
-const commentSchema = new mongoose.Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-    },
-    comment: {
-      type: String,
-      required: true,
-    },
-    timestamp: {
-      type: Date,
-      default: new Date(),
-      required: true,
-    },
-    video: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Video',
-      required: true,
-    },
-  },
-  {
-    toJSON: {
-      transform(_doc, ret) {
-        ret.id = ret._id;
-        delete ret._id;
-      },
-    },
-  }
-);
-```
-
-**Fields:**
-
-- `username` (String, required): The username of the commenter who posted the comment.
-- `comment` (String, required): The actual comment text.
-- `timestamp` (Date, default: new Date(), required): The timestamp of when the comment was posted.
-- `video` (ObjectId, ref: 'Video', required): A reference to the `Video` document to which the comment belongs.
+Each schema is configured to transform the `_id` field into an `id` field during serialization. This modification provides a standardized structure for API responses and enhances consistency when interacting with the application's data.
 
 ## API Structure
 
@@ -283,15 +173,7 @@ The folder structure design in this application follows best practices to mainta
 
 ## API Endpoints
 
-The API provides the following endpoints for managing video data:
-
-1. `GET /api/v1/videos`: Retrieve a list of videos.
-2. `GET /api/v1/videos/:id`: Retrieve detail of a video.
-3. `GET /api/v1/videos/:videoId/comments`: Retrieve comments for a specific video.
-4. `GET /api/v1/videos/:videoId/products`: Retrieve products associated with a specific video.
-5. `POST /api/v1/videos/:videoId/comments`: Create a new comment for a specific video.
-
-For a detailed explanation of the request and response format for each endpoint, please refer to this gist [API Endpoints](https://gist.github.com/pragusga25/81da817700086e851cbcd709c0253bbc).
+For a detailed explanation of the request and response format for each endpoint, please refer to this gist [API Endpoints](https://documenter.getpostman.com/view/16401831/2s9Xy6p99a).
 
 ## Usage
 
